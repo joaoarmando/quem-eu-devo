@@ -10,30 +10,41 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-
     return PlatformScaffold(
-      backgroundColor: secondaryBackgroundColor,
-      appBar: PlatformAppBar(        
-        backgroundColor: backgroundColor,
-        title: Text("Pendente"),
-        trailingActions: [
-          Platform.isIOS ? PlatformButton(
-            padding: const EdgeInsets.all(0),
-            onPressed: (){},            
-            child: Text("+ Novo",
-              style: TextStyle(
-                color: primaryAccent,
-                fontSize: 18
-              ),
-            ),
-          ) : SizedBox(),
-        ]
-      ),
+      iosContentBottomPadding: true,
+      iosContentPadding: true,
+      appBar: _buildAppBar(),
       body: Column(
         children: [
           Text("Hello from Home!")
         ],
       ),
+      material: (context, platform){
+        return MaterialScaffoldData(
+          floatingActionButton: FloatingActionButton(
+            onPressed: (){},
+            child: Icon(Icons.add),
+          )
+        );
+      },      
+    );
+  }
+
+  Widget _buildAppBar() {
+    return PlatformAppBar(
+      title: Text("Pendente"),
+      trailingActions: [
+        Platform.isIOS ? PlatformButton(
+          padding: const EdgeInsets.all(0),
+          onPressed: (){},            
+          child: Text("+ Novo",
+            style: TextStyle(
+              color: primaryAccent,
+              fontSize: 18
+            ),
+          ),
+        ) : SizedBox(),
+      ]
     );
   }
 }
