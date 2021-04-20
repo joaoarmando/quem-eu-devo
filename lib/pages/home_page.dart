@@ -1,10 +1,10 @@
 import 'dart:io';
 
-import 'package:flutter/services.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
 import 'package:flutter/material.dart';
-import 'package:quemeudevo/styles/styles.dart';
+
+import '../styles/styles.dart';
 
 class HomePage extends StatelessWidget {
   @override

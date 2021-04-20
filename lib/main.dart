@@ -1,8 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
-import 'package:quemeudevo/pages/home_page.dart';
-import 'package:quemeudevo/styles/styles.dart';
+
+import 'pages/home_page.dart';
+import 'styles/styles.dart';
 
 void main() {
   runApp(MyApp());
