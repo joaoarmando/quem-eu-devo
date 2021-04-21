@@ -2,6 +2,7 @@
 //
 //     final debtModel = debtModelFromJson(jsonString);
 
+import 'package:meta/meta.dart';
 import 'dart:convert';
 
 DebtModel debtModelFromJson(String str) => DebtModel.fromJson(json.decode(str));
@@ -10,18 +11,20 @@ String debtModelToJson(DebtModel data) => json.encode(data.toJson());
 
 class DebtModel {
     DebtModel({
-        this.amount,
+        @required this.amount,
         this.description,
-        this.paymentDate,
-        this.borrowingDate,
-        this.personToBePayed,
+        @required this.paymentDate,
+        @required this.borrowingDate,
+        @required this.personToBePayed,
+        @required this.createdAt,
     });
 
     String amount;
     String description;
-    String paymentDate;
-    String borrowingDate;
+    int paymentDate;
+    int borrowingDate;
     String personToBePayed;
+    int createdAt;
 
     factory DebtModel.fromJson(Map<String, dynamic> json) => DebtModel(
         amount: json["amount"],
@@ -29,6 +32,7 @@ class DebtModel {
         paymentDate: json["paymentDate"],
         borrowingDate: json["borrowingDate"],
         personToBePayed: json["personToBePayed"],
+        createdAt: json["createdAt"],
     );
 
     Map<String, dynamic> toJson() => {
@@ -37,5 +41,6 @@ class DebtModel {
         "paymentDate": paymentDate,
         "borrowingDate": borrowingDate,
         "personToBePayed": personToBePayed,
+        "createdAt": createdAt,
     };
 }

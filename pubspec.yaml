@@ -17,10 +17,25 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
 version: 1.0.0+1
 
+## Slidy Scripts 
+vars:
+  clean: flutter clean
+  get: flutter pub get
+  runner: flutter pub run build_runner
+scripts:
+  mobx_build: $runner build
+  mobx_watch: $clean & $get & $runner watch
+  mobx_build_clean: $clean & $get & $runner build --delete-conflicting-outputs
+  mobx: flutter pub run build_runner watch --delete-conflicting-outputs
+
+  
 environment:
   sdk: ">=2.7.0 <3.0.0"
 
 dependencies:
+  flutter_mobx: ^2.0.0
+  mobx: ^2.0.1
+  shared_preferences: ^2.0.5
   flutter_platform_widgets: ^1.2.0
   flutter:
     sdk: flutter
@@ -33,6 +48,8 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  build_runner:
+  mobx_codegen:   
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

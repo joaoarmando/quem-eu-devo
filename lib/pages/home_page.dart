@@ -1,12 +1,28 @@
 import 'dart:io';
+import 'package:flutter/material.dart';
 
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
-
-import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:quemeudevo/controllers/debt_page_controller.dart';
 
 import '../styles/styles.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
+
+  @override
+  _HomePageState createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+
+  final controller = DebtPageController();
+
+  @override
+  void initState() { 
+    super.initState();
+    controller.getAllPendantDebts();
+  }
+
   @override
   Widget build(BuildContext context) {
 
@@ -14,10 +30,49 @@ class HomePage extends StatelessWidget {
       iosContentBottomPadding: true,
       iosContentPadding: true,
       appBar: _buildAppBar(),
-      body: Column(
-        children: [
-          Text("Hello from Home!")
-        ],
+      body: Observer(builder: (_) {
+        return ListView.builder(
+          itemCount: controller.pendantDebts.length,
+          itemBuilder: (_, index) {
+            final pendingDebt = controller.pendantDebts[index];
+
+            return Container(
+              margin: const EdgeInsets.symmetric(horizontal:12, vertical: 6),
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: backgroundColor,
+                borderRadius: BorderRadius.circular(10),
+                border: Border.all(color: dividerColorSecondary, width: 2)
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(pendingDebt.personToBePayed,
+                        style: TextStyle(
+                          color: primaryText,
+                          fontSize: 18,                          
+                        ),
+                      ),
+                      Text(pendingDebt.quantity,
+                        style: TextStyle(
+                          color: Colors.yellow,
+                          fontSize: 21,      
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 12),
+                  Text("Devendo desde: ${pendingDebt.borrowingDate}"),
+                  Text("Data de pagamento: ${pendingDebt.paymentDate}"),
+                ],
+              ),
+            );
+          }
+        );
+      },
       ),
       material: (context, platform){
         return MaterialScaffoldData(
@@ -36,7 +91,9 @@ class HomePage extends StatelessWidget {
       trailingActions: [
         Platform.isIOS ? PlatformButton(
           padding: const EdgeInsets.all(0),
-          onPressed: (){},            
+          onPressed: (){
+            controller.saveAllPendantDebts();
+          },            
           child: Text("+ Novo",
             style: TextStyle(
               color: primaryAccent,

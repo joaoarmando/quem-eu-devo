@@ -11,10 +11,26 @@ class DebtViewModel {
   
   String get description => _debtModel.description;
 
-  String get borrowingDate => _debtModel.borrowingDate;
+  String get borrowingDate {
+    int timeInMillis = _debtModel.borrowingDate;
+    return convertMillisToDate(timeInMillis);
+  }
 
-  String get paymentDate => _debtModel.paymentDate;
+  String get paymentDate {
+    int timeInMillis = _debtModel.paymentDate;
+    return convertMillisToDate(timeInMillis);
+  }
+
 
   String get personToBePayed => _debtModel.personToBePayed;
+
+
+  String convertMillisToDate(int timeInMillis) {
+    DateTime date = DateTime.fromMillisecondsSinceEpoch(timeInMillis);
+    return "${date.day}/${date.month}/${date.year}";
+  }
+
+  Map<String,dynamic> toJson() => _debtModel.toJson();
   
+
 }
