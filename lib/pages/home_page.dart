@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
@@ -13,14 +14,14 @@ class HomePage extends StatefulWidget {
   _HomePageState createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin {
 
   final controller = DebtPageController();
-
   @override
   void initState() { 
     super.initState();
     controller.getAllPendantDebts();
+
   }
 
   @override
@@ -92,7 +93,8 @@ class _HomePageState extends State<HomePage> {
         Platform.isIOS ? PlatformButton(
           padding: const EdgeInsets.all(0),
           onPressed: (){
-            controller.saveAllPendantDebts();
+            // controller.saveAllPendantDebts();           
+
           },            
           child: Text("+ Novo",
             style: TextStyle(
@@ -104,4 +106,9 @@ class _HomePageState extends State<HomePage> {
       ]
     );
   }
+
+
+
+
+
 }

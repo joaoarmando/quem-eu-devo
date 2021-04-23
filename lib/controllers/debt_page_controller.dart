@@ -33,7 +33,7 @@ abstract class _DebtPageControllerBase with Store {
   @action
   Future<Null> saveAllPendantDebts() async {
       pendantDebts.add(DebtViewModel(debt: DebtModel(
-        amount: "R\$:10,00",
+        amount: 10,
         description: "Peguei emprestado para pagar a passagem do ônibus.",
         borrowingDate: 1619336404000,
         paymentDate: 1618731604000,

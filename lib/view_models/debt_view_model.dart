@@ -7,7 +7,7 @@ class DebtViewModel {
   DebtViewModel({@required DebtModel debt}) : _debtModel = debt;
 
 
-  String get quantity => _debtModel.amount;
+  String get quantity => "R\$:${_debtModel.amount}";
   
   String get description => _debtModel.description;
 
