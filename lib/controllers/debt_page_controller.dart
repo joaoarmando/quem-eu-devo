@@ -2,7 +2,7 @@ import 'package:mobx/mobx.dart';
 import 'package:quemeudevo/models/debt_model.dart';
 
 import '../repositories/debt_repository.dart';
-import '../view_models/debt_view_model.dart';
+import '../view_models/debt_viewmodel.dart';
 
 part 'debt_page_controller.g.dart';
 
