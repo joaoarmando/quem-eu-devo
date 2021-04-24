@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:quemeudevo/controllers/debt_page_controller.dart';
+import 'package:quemeudevo/pages/add_debt_page.dart';
 
 import '../styles/styles.dart';
 
@@ -93,8 +94,8 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
         Platform.isIOS ? PlatformButton(
           padding: const EdgeInsets.all(0),
           onPressed: (){
+            Navigator.push(context, CupertinoPageRoute(builder: (context) => AddDebtPage()));
             // controller.saveAllPendantDebts();           
-
           },            
           child: Text("+ Novo",
             style: TextStyle(
