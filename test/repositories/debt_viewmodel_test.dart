@@ -16,22 +16,22 @@ main() {
   });
 
   test('Should return the name of the person to be payed', () {
-    String convertedDate = model.personToBePayed;
-    expect(convertedDate, equals("Sueli")); 
+    String personToBePayed = model.personToBePayed;
+    expect(personToBePayed, equals("Sueli")); 
   });
 
   test('Should return the debt value', () {
-    String convertedDate = model.quantity;
-    expect(convertedDate, equals("R\$:10")); 
+    String quantity = model.quantity;
+    expect(quantity, equals("R\$:10")); 
   });
 
   test('Should return the correct Payment Date(String) when given the date in millis', () {
-    String convertedDate = model.paymentDate;
-    expect(convertedDate, equals("24/04/2021")); 
+    String paymentDate = model.paymentDate;
+    expect(paymentDate, equals("24/04/2021")); 
   });
 
   test('Should return the correct Borrowing Date(String) when given the date in millis', () {
-    String convertedDate = model.borrowingDate;
-    expect(convertedDate, equals("10/04/2021")); 
+    String borrowingDate = model.borrowingDate;
+    expect(borrowingDate, equals("10/04/2021")); 
   });
 }
