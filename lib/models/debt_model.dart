@@ -17,6 +17,8 @@ class DebtModel {
         @required this.borrowingDate,
         @required this.personToBePayed,
         @required this.createdAt,
+        @required this.id,
+        this.payed = false,
     });
 
     double amount;
@@ -25,6 +27,8 @@ class DebtModel {
     int borrowingDate;
     String personToBePayed;
     int createdAt;
+    String id;
+    bool payed;
 
     factory DebtModel.fromJson(Map<String, dynamic> json) => DebtModel(
         amount: json["amount"],
@@ -33,6 +37,8 @@ class DebtModel {
         borrowingDate: json["borrowingDate"],
         personToBePayed: json["personToBePayed"],
         createdAt: json["createdAt"],
+        payed: json["payed"],
+        id: json["id"],
     );
 
     Map<String, dynamic> toJson() => {
@@ -42,5 +48,7 @@ class DebtModel {
         "borrowingDate": borrowingDate,
         "personToBePayed": personToBePayed,
         "createdAt": createdAt,
+        "payed": payed,
+        "id": id,
     };
 }

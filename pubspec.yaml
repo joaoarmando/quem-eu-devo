@@ -34,8 +34,8 @@ environment:
 
 dependencies:
   modal_bottom_sheet: ^2.0.0
-  flutter_mobx: ^2.0.0
-  mobx: ^2.0.1
+  flutter_mobx: ^1.1.0+2 
+  mobx: ^1.2.1+4
   shared_preferences: ^2.0.5
   flutter_platform_widgets: ^1.2.0
   flutter:

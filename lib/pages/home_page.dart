@@ -6,6 +6,7 @@ import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:quemeudevo/controllers/debt_page_controller.dart';
 import 'package:quemeudevo/pages/add_debt_page.dart';
+import 'package:quemeudevo/view_models/debt_viewmodel.dart';
 
 import '../styles/styles.dart';
 
@@ -22,7 +23,6 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
   void initState() { 
     super.initState();
     controller.getAllPendantDebts();
-
   }
 
   @override
@@ -36,51 +36,9 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
         return ListView.builder(
           itemCount: controller.pendantDebts.length,
           itemBuilder: (_, index) {
-            final pendingDebt = controller.pendantDebts[index];
+            final debt = controller.pendantDebts[index];
 
-            return GestureDetector(
-              onTap: () async{
-               bool isChangedList = await Navigator.push(context, CupertinoPageRoute(builder: (context) => 
-                AddDebtPage(existingDebt: pendingDebt.toDebtModel())));
-                if (isChangedList != null && isChangedList){
-                  controller.getAllPendantDebts();
-                }
-              },
-              child: Container(
-                margin: const EdgeInsets.symmetric(horizontal:12, vertical: 6),
-                padding: const EdgeInsets.all(12),
-                decoration: BoxDecoration(
-                  color: backgroundColor,
-                  borderRadius: BorderRadius.circular(10),
-                  border: Border.all(color: dividerColorSecondary, width: 2)
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(pendingDebt.personToBePayed,
-                          style: TextStyle(
-                            color: primaryText,
-                            fontSize: 18,                          
-                          ),
-                        ),
-                        Text(pendingDebt.quantity,
-                          style: TextStyle(
-                            color: Colors.yellow,
-                            fontSize: 21,      
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 12),
-                    Text("Devendo desde: ${pendingDebt.borrowingDate}"),
-                    Text("Data de pagamento: ${pendingDebt.paymentDate}"),
-                  ],
-                ),
-              ),
-            );
+            return _buildDebtCard(debt);
           }
         );
       },
@@ -119,6 +77,52 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
     );
   }
 
+
+  Widget _buildDebtCard(DebtViewModel debt) {
+    return GestureDetector(
+      onTap: () async{
+        bool isChangedList = await Navigator.push(context, CupertinoPageRoute(builder: (context) => 
+        AddDebtPage(existingDebt: debt.toDebtModel())));
+        if (isChangedList != null){
+          controller.getAllPendantDebts();
+        }
+      },
+      child: Container(
+        margin: const EdgeInsets.symmetric(horizontal:12, vertical: 6),
+        padding: const EdgeInsets.all(12),
+        decoration: BoxDecoration(
+          color: backgroundColor,
+          borderRadius: BorderRadius.circular(10),
+          border: Border.all(color: dividerColorSecondary, width: 2)
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(debt.personToBePayed,
+                  style: TextStyle(
+                    color: primaryText,
+                    fontSize: 18,                          
+                  ),
+                ),
+                Text(debt.quantity,
+                  style: TextStyle(
+                    color: Colors.yellow,
+                    fontSize: 21,      
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(height: 12),
+            Text("Devendo desde: ${debt.borrowingDate}"),
+            Text("Data de pagamento: ${debt.paymentDate}"),
+          ],
+        ),
+      ),
+    );
+  }
 
 
 

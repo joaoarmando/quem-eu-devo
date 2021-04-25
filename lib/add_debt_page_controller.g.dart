@@ -9,6 +9,21 @@ part of 'add_debt_page_controller.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$AddDebtPageController on _AddDebtPageControllerBase, Store {
+  Computed<String> _$paymentDateStringComputed;
+
+  @override
+  String get paymentDateString => (_$paymentDateStringComputed ??=
+          Computed<String>(() => super.paymentDateString,
+              name: '_AddDebtPageControllerBase.paymentDateString'))
+      .value;
+  Computed<String> _$borrowingDateStringComputed;
+
+  @override
+  String get borrowingDateString => (_$borrowingDateStringComputed ??=
+          Computed<String>(() => super.borrowingDateString,
+              name: '_AddDebtPageControllerBase.borrowingDateString'))
+      .value;
+
   final _$showingBorrowingDatePickerAtom =
       Atom(name: '_AddDebtPageControllerBase.showingBorrowingDatePicker');
 
@@ -249,7 +264,9 @@ name: ${name},
 quantity: ${quantity},
 description: ${description},
 paymentDate: ${paymentDate},
-borrowingDate: ${borrowingDate}
+borrowingDate: ${borrowingDate},
+paymentDateString: ${paymentDateString},
+borrowingDateString: ${borrowingDateString}
     ''';
   }
 }

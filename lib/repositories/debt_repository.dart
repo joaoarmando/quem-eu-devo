@@ -18,7 +18,7 @@ class DebtRepository {
 
       if (prefs == null) await initSharedPreferences();
       final debtsFromSharedPreferences = prefs.getString("debts");
-
+    
       if (debtsFromSharedPreferences != null) {
           List debtsJSON = json.decode(debtsFromSharedPreferences);
           
@@ -33,6 +33,15 @@ class DebtRepository {
   Future<Null> saveDebtsSharedPreferences(DebtModel debt) async{
     List<DebtModel> debtList = await getAllDebtsFromSharedPreferences();
     debtList.add(debt);
+    final pendantDebtsString = json.encode(debtList.map((e) => e.toJson()).toList());
+    prefs.setString("debts", pendantDebtsString);    
+  }
+
+  Future<Null> editDebtSharedPreferencess(DebtModel debt) async{
+    List<DebtModel> debtList = await getAllDebtsFromSharedPreferences();
+    debtList.forEach((item) {
+      if (item.id == debt.id) item = debt;
+    });
     final pendantDebtsString = json.encode(debtList.map((e) => e.toJson()).toList());
     prefs.setString("debts", pendantDebtsString);    
   }

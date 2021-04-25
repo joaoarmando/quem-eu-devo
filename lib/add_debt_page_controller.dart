@@ -1,8 +1,6 @@
 import 'dart:async';
-import 'dart:ffi';
 
 import 'package:mobx/mobx.dart';
-import 'package:meta/meta.dart';
 import 'package:quemeudevo/repositories/debt_repository.dart';
 
 import 'models/debt_model.dart';
@@ -11,15 +9,16 @@ part 'add_debt_page_controller.g.dart';
 class AddDebtPageController = _AddDebtPageControllerBase with _$AddDebtPageController;
 
 abstract class _AddDebtPageControllerBase with Store {
-
+  Timer timerBorrowingDate;
   DebtModel debt;
   _AddDebtPageControllerBase(this.debt) {
     if (this.debt != null) {
         quantity = debt.amount.toStringAsFixed(2);
         name = debt.personToBePayed;
+        payed = debt.payed;
         description = debt.description;
-        paymentDate = DateTime.fromMicrosecondsSinceEpoch(debt.paymentDate);
-        borrowingDate = DateTime.fromMicrosecondsSinceEpoch(debt.borrowingDate);
+        paymentDate = DateTime.fromMillisecondsSinceEpoch(debt.paymentDate) ;
+        borrowingDate = DateTime.fromMillisecondsSinceEpoch(debt.borrowingDate);
     }
   }
 
@@ -44,10 +43,16 @@ abstract class _AddDebtPageControllerBase with Store {
   String description = "";
 
   @observable
-  DateTime paymentDate;
-  @observable
+  DateTime paymentDate = DateTime.fromMicrosecondsSinceEpoch(DateTime.now().microsecondsSinceEpoch + 604800000000);  //Default starts 1 week after today
 
-  DateTime borrowingDate;
+  @observable
+  DateTime borrowingDate = DateTime.now();
+
+  @computed
+  String get paymentDateString => convertDateToString(paymentDate);
+
+  @computed
+  String get borrowingDateString => convertDateToString(borrowingDate);
 
   @action
   void onChangedName(String value) => name = value;
@@ -75,12 +80,17 @@ abstract class _AddDebtPageControllerBase with Store {
 
   @action
   void changeBorrowingDate(DateTime date) {
-    borrowingDate = date;
+    //Use this timer to avoid instantly update.
+    if (timerBorrowingDate != null) timerBorrowingDate.cancel();
+    timerBorrowingDate = Timer(Duration(milliseconds: 100),(){
+      borrowingDate = date;
+      paymentDate = date;
+    });
   }
   
   @action
   void changePaymentDate(DateTime date) {
-    paymentDate = date; 
+    paymentDate = date;
   }
 
   @action
@@ -100,7 +110,9 @@ abstract class _AddDebtPageControllerBase with Store {
       paymentDate: paymentDate.millisecondsSinceEpoch,
       borrowingDate: borrowingDate.millisecondsSinceEpoch,
       amount: double.parse(quantity),
-      createdAt: DateTime.now().millisecondsSinceEpoch
+      createdAt: DateTime.now().millisecondsSinceEpoch,
+      id: DateTime.now().millisecondsSinceEpoch.toString(),
+      payed: payed
     );
     await repository.saveDebtsSharedPreferences(debt);
     return;
@@ -112,7 +124,15 @@ abstract class _AddDebtPageControllerBase with Store {
     debt.paymentDate = paymentDate.millisecondsSinceEpoch;
     debt.borrowingDate = borrowingDate.millisecondsSinceEpoch;
     debt.amount = double.parse(quantity);
-    await repository.saveDebtsSharedPreferences(debt);
+    debt.payed = payed;
+    await repository.editDebtSharedPreferencess(debt);
     return;
+  }
+
+  String convertDateToString(DateTime date) {
+    String day = date.day < 10 ? "0${date.day}" : date.day.toString();
+    String month = date.month < 10 ? "0${date.month}" : date.month.toString();
+    String year = date.year.toString();
+    return "$day/$month/$year";
   }
 }
