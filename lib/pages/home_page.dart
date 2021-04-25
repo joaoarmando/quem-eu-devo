@@ -46,7 +46,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
       material: (context, platform){
         return MaterialScaffoldData(
           floatingActionButton: FloatingActionButton(
-            onPressed: (){},
+            onPressed: _addNewDebt,
             child: Icon(Icons.add),
           )
         );
@@ -60,12 +60,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
       trailingActions: [
         Platform.isIOS ? PlatformButton(
           padding: const EdgeInsets.all(0),
-          onPressed: () async {
-            bool isChangedList = await Navigator.push(context, CupertinoPageRoute(builder: (context) => AddDebtPage()));
-            if (isChangedList != null && isChangedList){
-              controller.getAllPendantDebts();
-            }
-          },            
+          onPressed: _addNewDebt,            
           child: Text("+ Novo",
             style: TextStyle(
               color: primaryAccent,
@@ -124,6 +119,12 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
     );
   }
 
+  void _addNewDebt() async {
+    bool isChangedList = await Navigator.push(context, CupertinoPageRoute(builder: (context) => AddDebtPage()));
+    if (isChangedList != null && isChangedList){
+      controller.getAllPendantDebts();
+    }
+  }
 
 
 
