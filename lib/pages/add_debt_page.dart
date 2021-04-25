@@ -57,7 +57,8 @@ class _AddDebtPageState extends State<AddDebtPage> {
             height: 50,
             child: _buildTextField(hint:"Nome", 
               onChanged: controller.onChangedName, 
-              initialText: controller.name
+              initialText: controller.name,
+              keyboardType: TextInputType.name
             ),
           ),
           SizedBox(height: 12),
@@ -65,7 +66,8 @@ class _AddDebtPageState extends State<AddDebtPage> {
             height: 50,
             child: _buildTextField(hint:"Valor", 
               onChanged: controller.onChangedQuantity, 
-              initialText: controller.quantity
+              initialText: controller.quantity,
+              keyboardType: TextInputType.numberWithOptions(decimal: true)
             ),
           ),
           SizedBox(height: 12),
@@ -74,7 +76,8 @@ class _AddDebtPageState extends State<AddDebtPage> {
             child: _buildTextField(hint:"Descrição", 
               onChanged: controller.onChangedDescription, 
               maxLines: 4, 
-              initialText: controller.description
+              initialText: controller.description,
+              keyboardType: TextInputType.text
             ),
           ),
           SizedBox(height: 12),
@@ -108,7 +111,8 @@ class _AddDebtPageState extends State<AddDebtPage> {
     );
   }
 
-  Widget _buildTextField({@required String hint, @required Function(String) onChanged, int maxLines = 1, @required String initialText}) {
+  Widget _buildTextField({@required String hint, @required Function(String) onChanged, 
+    int maxLines = 1, @required String initialText, TextInputType keyboardType = TextInputType.text }) {
     return PlatformTextField(              
       onChanged: onChanged,
       hintText: hint,      
@@ -116,6 +120,7 @@ class _AddDebtPageState extends State<AddDebtPage> {
       controller: TextEditingController(text: initialText)..selection = TextSelection.fromPosition(TextPosition(offset: initialText.length)),
       textAlign: TextAlign.start,
       onTap: controller.hideDatePickers,
+      keyboardType: keyboardType,
       autocorrect: true,
       cupertino: (_,__) => CupertinoTextFieldData(
         decoration: BoxDecoration(
@@ -124,6 +129,12 @@ class _AddDebtPageState extends State<AddDebtPage> {
           borderRadius: Platform.isIOS ?  BorderRadius.zero : BorderRadius.circular(5)
         ),
         // maxLines: 4
+      ),
+      material: (_,__) => MaterialTextFieldData(
+        decoration: InputDecoration(
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(5)),
+          labelText: hint
+        )
       ),
     );
   }
@@ -158,7 +169,7 @@ class _AddDebtPageState extends State<AddDebtPage> {
                 SizedBox(height: 12),
                 AnimatedContainer(
                   duration: Duration(milliseconds: 200),
-                  height: controller.showingBorrowingDatePicker ? 200 : 0.1, // for some reason when parent of CupertinoDatePicker is 0 flutter throws an exception (issue: 55630)
+                  height: controller.showingBorrowingDatePicker ? 200 : 0, // for some reason when parent of CupertinoDatePicker is 0 flutter throws an exception (issue: 55630)
                   child: CupertinoDatePicker(
                     initialDateTime: controller.borrowingDate,
                     minimumYear: DateTime.now().year,
@@ -208,7 +219,7 @@ class _AddDebtPageState extends State<AddDebtPage> {
                 SizedBox(height: 12),
                 AnimatedContainer(
                   duration: Duration(milliseconds: 200),
-                  height: controller.showingPaymentDatePicker ? 200 : 0.1, // for some reason when parent of CupertinoDatePicker is 0 flutter throws an exception (issue: 55630)
+                  height: controller.showingPaymentDatePicker ? 200 : 0, // for some reason when parent of CupertinoDatePicker is 0 flutter throws an exception (issue: 55630)
                   child: CupertinoDatePicker(
                     initialDateTime: controller.paymentDate,
                     minimumDate: controller.borrowingDate,
