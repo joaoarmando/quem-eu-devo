@@ -40,13 +40,7 @@ class _AddDebtPageState extends State<AddDebtPage> {
                 fontSize: 18
               ),
             ),
-            onPressed: () async {
-              if (widget.existingDebt == null) {
-                  await controller.saveDebt();
-              }
-              else await controller.editDebt();
-              Navigator.pop(context, true);
-            },
+            onPressed: _saveOrEditDebt,
           ) : SizedBox()
         ],
       ),
@@ -105,7 +99,10 @@ class _AddDebtPageState extends State<AddDebtPage> {
                 )
               );
           },
-          )
+          ),
+
+          Platform.isIOS ? Container() : _androidSaveButton()
+
         ],
       )
     );
@@ -239,5 +236,41 @@ class _AddDebtPageState extends State<AddDebtPage> {
       ),
       child: child,
     );
+  }
+
+  Widget _androidSaveButton() {
+    return Container(
+      margin: const EdgeInsets.symmetric(vertical:24),
+      width: MediaQuery.of(context).size.width *.75,
+      height: 50,
+      decoration: BoxDecoration(
+        color: primaryAccent,
+        borderRadius: BorderRadius.circular(5)
+      ),
+      child: Material(
+        type: MaterialType.transparency,
+        child: InkWell(
+          onTap: _saveOrEditDebt,
+          splashColor: backgroundColor.withOpacity(.8),
+          borderRadius: BorderRadius.circular(5),
+          child: Center(
+            child: Text("Salvar",
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 18,
+                fontWeight: FontWeight.w600
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+  void _saveOrEditDebt() async {
+    if (widget.existingDebt == null) {
+        await controller.saveDebt();
+    }
+    else await controller.editDebt();
+    Navigator.pop(context, true);
   }
 }
