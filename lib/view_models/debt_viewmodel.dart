@@ -7,7 +7,7 @@ class DebtViewModel {
   DebtViewModel({@required DebtModel debt}) : _debtModel = debt;
 
 
-  String get quantity => "R\$:${_debtModel.amount.toStringAsFixed(2)}";
+  String get quantity => "R\$:${_debtModel.amount.toStringAsFixed(2).replaceAll(".", ",")}";
   
   String get description => _debtModel.description;
 

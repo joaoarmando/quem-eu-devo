@@ -105,12 +105,13 @@ abstract class _AddDebtPageControllerBase with Store {
 
 
   Future<Null> saveDebt() async {
+    String amount = quantity.replaceAll(",", "."); // in case the user types "," instead "."
     debt = DebtModel(
       personToBePayed: name,
       description: description,
       paymentDate: paymentDate.millisecondsSinceEpoch,
       borrowingDate: borrowingDate.millisecondsSinceEpoch,
-      amount: double.parse(quantity),
+      amount: double.parse(amount),
       createdAt: DateTime.now().millisecondsSinceEpoch,
       id: DateTime.now().millisecondsSinceEpoch.toString(),
       payed: payed
@@ -120,11 +121,12 @@ abstract class _AddDebtPageControllerBase with Store {
   }
 
   Future<Null> editDebt() async {
+    String amount = quantity.replaceAll(",", "."); // in case the user types "," instead "."
     debt.personToBePayed = name;
     debt.description = description;
     debt.paymentDate = paymentDate.millisecondsSinceEpoch;
     debt.borrowingDate = borrowingDate.millisecondsSinceEpoch;
-    debt.amount = double.parse(quantity);
+    debt.amount = double.parse(amount);
     debt.payed = payed;
     await repository.editDebtSharedPreferences(debt);
     return;

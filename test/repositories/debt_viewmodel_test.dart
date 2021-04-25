@@ -11,7 +11,8 @@ main() {
       paymentDate: 1619280741000, 
       borrowingDate: 1618071141000, 
       personToBePayed: "Sueli", 
-      createdAt: 1619280741000
+      createdAt: 1619280741000,
+      id: "1619280741000"
     ));
   });
 
@@ -22,7 +23,7 @@ main() {
 
   test('Should return the debt value', () {
     String quantity = model.quantity;
-    expect(quantity, equals("R\$:10.00")); 
+    expect(quantity, equals("R\$:10,00")); 
   });
 
   test('Should return the correct Payment Date(String) when given the date in millis', () {
