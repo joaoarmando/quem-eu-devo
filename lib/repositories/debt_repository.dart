@@ -39,9 +39,11 @@ class DebtRepository {
 
   Future<Null> editDebtSharedPreferencess(DebtModel debt) async{
     List<DebtModel> debtList = await getAllDebtsFromSharedPreferences();
-    debtList.forEach((item) {
-      if (item.id == debt.id) item = debt;
-    });
+    for (var i =0; i <debtList.length; i++) {
+      if (debtList[i].id == debt.id) {
+          debtList[i] = debt;
+      }
+    }    
     final pendantDebtsString = json.encode(debtList.map((e) => e.toJson()).toList());
     prefs.setString("debts", pendantDebtsString);    
   }
