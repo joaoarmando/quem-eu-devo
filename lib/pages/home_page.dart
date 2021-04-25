@@ -76,8 +76,10 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
   Widget _buildDebtCard(DebtViewModel debt) {
     return GestureDetector(
       onTap: () async{
-        bool isChangedList = await Navigator.push(context, CupertinoPageRoute(builder: (context) => 
-        AddDebtPage(existingDebt: debt.toDebtModel())));
+        bool isChangedList = await Navigator.push(context, 
+          Platform.isIOS ? CupertinoPageRoute(builder: (context) => AddDebtPage(existingDebt: debt.toDebtModel()))
+          : MaterialPageRoute(builder: (context) => AddDebtPage(existingDebt: debt.toDebtModel()))
+        );
         if (isChangedList != null){
           controller.getAllPendantDebts();
         }
@@ -120,7 +122,10 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
   }
 
   void _addNewDebt() async {
-    bool isChangedList = await Navigator.push(context, CupertinoPageRoute(builder: (context) => AddDebtPage()));
+    bool isChangedList = await Navigator.push(context, 
+      Platform.isIOS ? CupertinoPageRoute(builder: (context) => AddDebtPage())
+      : MaterialPageRoute(builder: (context) => AddDebtPage())
+    );
     if (isChangedList != null && isChangedList){
       controller.getAllPendantDebts();
     }
