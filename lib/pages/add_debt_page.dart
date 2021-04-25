@@ -3,11 +3,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
-import 'package:mobx/mobx.dart';
-import 'package:quemeudevo/add_debt_page_controller.dart';
+import 'package:quemeudevo/controllers/add_debt_page_controller.dart';
 import 'package:quemeudevo/models/debt_model.dart';
 import 'package:quemeudevo/styles/styles.dart';
-import 'package:quemeudevo/view_models/debt_viewmodel.dart';
+
 
 class AddDebtPage extends StatefulWidget {
   final DebtModel existingDebt;
@@ -81,9 +80,9 @@ class _AddDebtPageState extends State<AddDebtPage> {
             ),
           ),
           SizedBox(height: 12),
-          _buildBorrowingDate(description: "Data do empréstimo:", date: controller.borrowingDateString),
+          Observer(builder: (_) => _buildBorrowingDate(description: "Data do empréstimo:", date: controller.borrowingDateString)),
           SizedBox(height: 12),
-          _buildPaymentDate(description: "Data do pagamento:", date: controller.paymentDateString),
+          Observer(builder: (_) => _buildPaymentDate(description: "Data do pagamento:", date: controller.paymentDateString)),          
           SizedBox(height: 12),
           Observer(builder: (_) {
             return _buildCardSection(
@@ -141,7 +140,31 @@ class _AddDebtPageState extends State<AddDebtPage> {
 
   Widget _buildBorrowingDate({@required String description, String date}) {
     return GestureDetector(
-      onTap: controller.showBorrowingDatePicker,
+      onTap: () async {
+        if (Platform.isIOS) controller.showBorrowingDatePicker();
+        else {
+          DateTime pickedDate = await showDatePicker(context: context, 
+            initialDate: controller.borrowingDate, 
+            firstDate: DateTime.now(), 
+            lastDate: DateTime(2050),
+            builder: (BuildContext context, Widget child) {
+              return Theme(
+                data: ThemeData.dark().copyWith(
+                dialogBackgroundColor: secondaryBackgroundColor,
+                colorScheme: ColorScheme.dark(
+                  primary: primaryAccent,
+                  onPrimary: primaryText,
+                  surface: backgroundColor,
+                  onSurface: primaryAccent,
+                ),
+                ),
+                child: child,
+              );
+            }            
+          );
+          if (pickedDate != null) controller.changeBorrowingDate(pickedDate);          
+        }
+      },
       child: Observer(builder: (_) {
          return _buildCardSection(
           Padding(
@@ -189,10 +212,33 @@ class _AddDebtPageState extends State<AddDebtPage> {
 
   Widget _buildPaymentDate({@required String description, String date}) {
     return GestureDetector(
-      onTap: controller.showPaymentDatePicker,
+      onTap: () async{
+        if (Platform.isIOS) controller.showPaymentDatePicker();
+        else {
+          DateTime pickedDate = await showDatePicker(context: context, 
+            initialDate: controller.paymentDate, 
+            firstDate: controller.borrowingDate, 
+            lastDate: DateTime(2050),
+            builder: (BuildContext context, Widget child) {
+              return Theme(
+                data: ThemeData.dark().copyWith(
+                dialogBackgroundColor: secondaryBackgroundColor,
+                colorScheme: ColorScheme.dark(
+                  primary: primaryAccent,
+                  onPrimary: primaryText,
+                  surface: backgroundColor,
+                  onSurface: primaryAccent,
+                ),
+                ),
+                child: child,
+              );
+            } 
+          );
+          if (pickedDate != null) controller.changePaymentDate(pickedDate);          
+        }
+        
+      },
       child: Observer(builder: (_) {
-        print("initialYear: ${controller.paymentDate.year}");
-        print("minimumYear: ${controller.borrowingDate.year}");
          return _buildCardSection(
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 6),

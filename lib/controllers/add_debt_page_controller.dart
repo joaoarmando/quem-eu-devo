@@ -3,7 +3,8 @@ import 'dart:async';
 import 'package:mobx/mobx.dart';
 import 'package:quemeudevo/repositories/debt_repository.dart';
 
-import 'models/debt_model.dart';
+import '../models/debt_model.dart';
+
 part 'add_debt_page_controller.g.dart';
 
 class AddDebtPageController = _AddDebtPageControllerBase with _$AddDebtPageController;
