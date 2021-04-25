@@ -38,38 +38,47 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
           itemBuilder: (_, index) {
             final pendingDebt = controller.pendantDebts[index];
 
-            return Container(
-              margin: const EdgeInsets.symmetric(horizontal:12, vertical: 6),
-              padding: const EdgeInsets.all(12),
-              decoration: BoxDecoration(
-                color: backgroundColor,
-                borderRadius: BorderRadius.circular(10),
-                border: Border.all(color: dividerColorSecondary, width: 2)
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(pendingDebt.personToBePayed,
-                        style: TextStyle(
-                          color: primaryText,
-                          fontSize: 18,                          
+            return GestureDetector(
+              onTap: () async{
+               bool isChangedList = await Navigator.push(context, CupertinoPageRoute(builder: (context) => 
+                AddDebtPage(existingDebt: pendingDebt.toDebtModel())));
+                if (isChangedList != null && isChangedList){
+                  controller.getAllPendantDebts();
+                }
+              },
+              child: Container(
+                margin: const EdgeInsets.symmetric(horizontal:12, vertical: 6),
+                padding: const EdgeInsets.all(12),
+                decoration: BoxDecoration(
+                  color: backgroundColor,
+                  borderRadius: BorderRadius.circular(10),
+                  border: Border.all(color: dividerColorSecondary, width: 2)
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(pendingDebt.personToBePayed,
+                          style: TextStyle(
+                            color: primaryText,
+                            fontSize: 18,                          
+                          ),
                         ),
-                      ),
-                      Text(pendingDebt.quantity,
-                        style: TextStyle(
-                          color: Colors.yellow,
-                          fontSize: 21,      
+                        Text(pendingDebt.quantity,
+                          style: TextStyle(
+                            color: Colors.yellow,
+                            fontSize: 21,      
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 12),
-                  Text("Devendo desde: ${pendingDebt.borrowingDate}"),
-                  Text("Data de pagamento: ${pendingDebt.paymentDate}"),
-                ],
+                      ],
+                    ),
+                    SizedBox(height: 12),
+                    Text("Devendo desde: ${pendingDebt.borrowingDate}"),
+                    Text("Data de pagamento: ${pendingDebt.paymentDate}"),
+                  ],
+                ),
               ),
             );
           }
@@ -93,9 +102,11 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
       trailingActions: [
         Platform.isIOS ? PlatformButton(
           padding: const EdgeInsets.all(0),
-          onPressed: (){
-            Navigator.push(context, CupertinoPageRoute(builder: (context) => AddDebtPage()));
-            // controller.saveAllPendantDebts();           
+          onPressed: () async {
+            bool isChangedList = await Navigator.push(context, CupertinoPageRoute(builder: (context) => AddDebtPage()));
+            if (isChangedList != null && isChangedList){
+              controller.getAllPendantDebts();
+            }
           },            
           child: Text("+ Novo",
             style: TextStyle(

@@ -19,7 +19,7 @@ class DebtModel {
         @required this.createdAt,
     });
 
-    int amount;
+    double amount;
     String description;
     int paymentDate;
     int borrowingDate;

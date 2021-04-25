@@ -13,8 +13,8 @@ class DebtRepository {
     initSharedPreferences();
   }
 
-  Future<List<DebtViewModel>> getAllDebtsFromSharedPreferences() async {
-      List<DebtViewModel> debts = [];
+  Future<List<DebtModel>> getAllDebtsFromSharedPreferences() async {
+      List<DebtModel> debts = [];
 
       if (prefs == null) await initSharedPreferences();
       final debtsFromSharedPreferences = prefs.getString("debts");
@@ -23,17 +23,19 @@ class DebtRepository {
           List debtsJSON = json.decode(debtsFromSharedPreferences);
           
           debts = debtsJSON.map((debt) =>
-            DebtViewModel(debt: DebtModel.fromJson(debt))
+            DebtModel.fromJson(debt)
           ).toList();
 
       }
       return debts;
   }
-  
-  Future<Null> saveDebtsSharedPreferences(List<DebtViewModel> debtList) async{
+
+  Future<Null> saveDebtsSharedPreferences(DebtModel debt) async{
+    List<DebtModel> debtList = await getAllDebtsFromSharedPreferences();
+    debtList.add(debt);
     final pendantDebtsString = json.encode(debtList.map((e) => e.toJson()).toList());
     prefs.setString("debts", pendantDebtsString);    
-  } 
+  }
 
   Future initSharedPreferences() async {
     prefs = await SharedPreferences.getInstance();

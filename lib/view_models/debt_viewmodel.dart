@@ -31,7 +31,9 @@ class DebtViewModel {
     return "$day/$month/$year";
   }
 
-  Map<String,dynamic> toJson() => _debtModel.toJson();
+  Map<String,dynamic> toDebtModelJson() => _debtModel.toJson();
+
+  DebtModel toDebtModel() => _debtModel;
   
 
 }

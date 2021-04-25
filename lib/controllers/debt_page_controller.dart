@@ -26,23 +26,10 @@ abstract class _DebtPageControllerBase with Store {
   @action
   Future<Null> getAllPendantDebts() async {
       debtStatus = DebtStatus.loading;
-      pendantDebts.addAll(await repository.getAllDebtsFromSharedPreferences());
+      List<DebtModel> debts = await repository.getAllDebtsFromSharedPreferences();
+      pendantDebts.clear();
+      pendantDebts.addAll(debts.map((debt) => DebtViewModel(debt: debt)).toList());
       debtStatus = DebtStatus.success;
-  }
-
-  @action
-  Future<Null> saveAllPendantDebts() async {
-      pendantDebts.add(DebtViewModel(debt: DebtModel(
-        amount: 10,
-        description: "Peguei emprestado para pagar a passagem do ônibus.",
-        borrowingDate: 1619336404000,
-        paymentDate: 1618731604000,
-        createdAt: DateTime.now().millisecond,
-        personToBePayed: "Sueli"
-      )));
-
-      await repository.saveDebtsSharedPreferences(pendantDebts);
-      return;
   }
 }
 

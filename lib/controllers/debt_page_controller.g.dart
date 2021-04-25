@@ -33,15 +33,6 @@ mixin _$DebtPageController on _DebtPageControllerBase, Store {
         .run(() => super.getAllPendantDebts());
   }
 
-  final _$saveAllPendantDebtsAsyncAction =
-      AsyncAction('_DebtPageControllerBase.saveAllPendantDebts');
-
-  @override
-  Future<Null> saveAllPendantDebts() {
-    return _$saveAllPendantDebtsAsyncAction
-        .run(() => super.saveAllPendantDebts());
-  }
-
   @override
   String toString() {
     return '''
