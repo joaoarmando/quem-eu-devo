@@ -125,7 +125,7 @@ abstract class _AddDebtPageControllerBase with Store {
     debt.borrowingDate = borrowingDate.millisecondsSinceEpoch;
     debt.amount = double.parse(quantity);
     debt.payed = payed;
-    await repository.editDebtSharedPreferencess(debt);
+    await repository.editDebtSharedPreferences(debt);
     return;
   }
 

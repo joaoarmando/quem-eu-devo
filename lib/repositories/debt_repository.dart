@@ -37,7 +37,7 @@ class DebtRepository {
     prefs.setString("debts", pendantDebtsString);    
   }
 
-  Future<Null> editDebtSharedPreferencess(DebtModel debt) async{
+  Future<Null> editDebtSharedPreferences(DebtModel debt) async{
     List<DebtModel> debtList = await getAllDebtsFromSharedPreferences();
     for (var i =0; i <debtList.length; i++) {
       if (debtList[i].id == debt.id) {

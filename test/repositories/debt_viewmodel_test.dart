@@ -22,7 +22,7 @@ main() {
 
   test('Should return the debt value', () {
     String quantity = model.quantity;
-    expect(quantity, equals("R\$:10")); 
+    expect(quantity, equals("R\$:10.00")); 
   });
 
   test('Should return the correct Payment Date(String) when given the date in millis', () {
