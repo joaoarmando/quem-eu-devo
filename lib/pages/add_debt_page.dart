@@ -42,6 +42,12 @@ class _AddDebtPageState extends State<AddDebtPage> {
             onPressed: _saveOrEditDebt,
           ) : SizedBox()
         ],
+        leading: PlatformIconButton(
+          padding: EdgeInsets.zero,
+            icon: Icon( Platform.isIOS ? Icons.arrow_back_ios : Icons.arrow_back, color: primaryAccent),
+            onPressed: () => Navigator.pop(context),
+        ),
+        automaticallyImplyLeading: false,
       ),
       body: ListView(
         padding: EdgeInsets.symmetric(horizontal: Platform.isIOS ? 0 : 12, vertical: 24),
