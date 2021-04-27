@@ -13,7 +13,6 @@ class DebtRepository {
 
   Future<List<DebtModel>> getAllDebtsFromSharedPreferences() async {
       List<DebtModel> debts = [];
-
       if (prefs == null) await initSharedPreferences();
       final debtsFromSharedPreferences = prefs.getString("debts");
     
