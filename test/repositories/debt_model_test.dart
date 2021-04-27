@@ -7,21 +7,25 @@ main() {
   DebtModel debtModel;
   setUp(() {
     json = {
-      "amount": faker.randomGenerator.integer(9999, min: 1),
+      "amount": faker.randomGenerator.decimal(scale: 5),
       "description": faker.lorem.sentence(),
       "paymentDate": faker.date.dateTime().millisecondsSinceEpoch,
       "borrowingDate": faker.date.dateTime().millisecondsSinceEpoch,
       "personToBePayed":faker.person.name(),
       "createdAt": faker.date.dateTime().millisecondsSinceEpoch,
+      "payed": faker.randomGenerator.boolean(),
+      "id": faker.guid.guid()
     };
     debtModel = DebtModel.fromJson(json);
   });
    
   test('Should convert a JSON to DebtModel with success', () {
-      expect(debtModel.amount, isA<int>());
-      expect(debtModel.description, () => isA<String>());
+      expect(debtModel.amount, isA<double>());
+      expect(debtModel.description, isA<String>());
       expect(debtModel.paymentDate, isA<int>());
       expect(debtModel.borrowingDate, isA<int>());
       expect(debtModel.personToBePayed, isA<String>());
+      expect(debtModel.id, isA<String>());
+      expect(debtModel.payed, isA<bool>());
   });
 }
