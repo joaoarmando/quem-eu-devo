@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:quemeudevo/controllers/debt_page_controller.dart';
+import 'package:quemeudevo/models/debt_model.dart';
 import 'package:quemeudevo/pages/add_debt_page.dart';
-import 'package:quemeudevo/view_models/debt_viewmodel.dart';
 
 import '../styles/styles.dart';
 
@@ -73,12 +73,12 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
   }
 
 
-  Widget _buildDebtCard(DebtViewModel debt) {
+  Widget _buildDebtCard(DebtModel debt) {
     return GestureDetector(
       onTap: () async{
         bool isChangedList = await Navigator.push(context, 
-          Platform.isIOS ? CupertinoPageRoute(builder: (context) => AddDebtPage(existingDebt: debt.toDebtModel()))
-          : MaterialPageRoute(builder: (context) => AddDebtPage(existingDebt: debt.toDebtModel()))
+          Platform.isIOS ? CupertinoPageRoute(builder: (context) => AddDebtPage(existingDebt: debt))
+          : MaterialPageRoute(builder: (context) => AddDebtPage(existingDebt: debt))
         );
         if (isChangedList != null){
           controller.getAllPendantDebts();
@@ -113,8 +113,8 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
               ],
             ),
             SizedBox(height: 12),
-            Text("Devendo desde: ${debt.borrowingDate}"),
-            Text("Data de pagamento: ${debt.paymentDate}"),
+            Text("Devendo desde: ${debt.borrowingDateConverted}"),
+            Text("Data de pagamento: ${debt.paymentDateConverted}"),
           ],
         ),
       ),

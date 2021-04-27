@@ -2,7 +2,6 @@ import 'package:mobx/mobx.dart';
 import 'package:quemeudevo/models/debt_model.dart';
 
 import '../repositories/debt_repository.dart';
-import '../view_models/debt_viewmodel.dart';
 
 part 'debt_page_controller.g.dart';
 
@@ -17,7 +16,7 @@ abstract class _DebtPageControllerBase with Store {
     repository = DebtRepository();
   }
 
-  ObservableList<DebtViewModel> pendantDebts = ObservableList<DebtViewModel>();
+  ObservableList<DebtModel> pendantDebts = ObservableList<DebtModel>();
 
   @observable
   DebtStatus debtStatus = DebtStatus.loading;
@@ -26,9 +25,8 @@ abstract class _DebtPageControllerBase with Store {
   @action
   Future<Null> getAllPendantDebts() async {
       debtStatus = DebtStatus.loading;
-      List<DebtModel> debts = await repository.getAllDebtsFromSharedPreferences();
       pendantDebts.clear();
-      pendantDebts.addAll(debts.map((debt) => DebtViewModel(debt: debt)).toList());
+      pendantDebts.addAll(await repository.getAllDebtsFromSharedPreferences());
       debtStatus = DebtStatus.success;
   }
 }

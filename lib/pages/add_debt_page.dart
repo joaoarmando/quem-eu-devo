@@ -1,11 +1,13 @@
 import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
-import 'package:quemeudevo/controllers/add_debt_page_controller.dart';
-import 'package:quemeudevo/models/debt_model.dart';
-import 'package:quemeudevo/styles/styles.dart';
+
+import '../controllers/add_debt_page_controller.dart';
+import '../models/debt_model.dart';
+import '../styles/styles.dart';
 
 
 class AddDebtPage extends StatefulWidget {

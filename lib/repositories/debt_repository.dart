@@ -31,7 +31,7 @@ class DebtRepository {
     List<DebtModel> debtList = await getAllDebtsFromSharedPreferences();
     debtList.add(debt);
     final pendantDebtsString = json.encode(debtList.map((e) => e.toJson()).toList());
-    prefs.setString("debts", pendantDebtsString);    
+    prefs.setString("debts", pendantDebtsString);
   }
 
   Future<Null> editDebtSharedPreferences(DebtModel debt) async{

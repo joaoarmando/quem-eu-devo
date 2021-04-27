@@ -42,4 +42,18 @@ class DebtModel {
         "payed": payed,
         "id": id,
     };
+
+  String get quantity => "R\$:${amount.toStringAsFixed(2).replaceAll(".", ",")}";
+  
+  String get borrowingDateConverted => convertMillisToDate(borrowingDate);  
+
+  String get paymentDateConverted => convertMillisToDate(paymentDate);  
+  
+  String convertMillisToDate(int timeInMillis) {
+    DateTime date = DateTime.fromMillisecondsSinceEpoch(timeInMillis);
+    String day = date.day < 10 ? "0${date.day}" : date.day.toString();
+    String month = date.month < 10 ? "0${date.month}" : date.month.toString();
+    String year = date.year.toString();
+    return "$day/$month/$year";
+  }
 }
