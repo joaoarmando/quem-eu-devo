@@ -1,13 +1,4 @@
-// To parse this JSON data, do
-//
-//     final debtModel = debtModelFromJson(jsonString);
-
 import 'package:meta/meta.dart';
-import 'dart:convert';
-
-DebtModel debtModelFromJson(String str) => DebtModel.fromJson(json.decode(str));
-
-String debtModelToJson(DebtModel data) => json.encode(data.toJson());
 
 class DebtModel {
     DebtModel({
